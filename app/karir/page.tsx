@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function CareersPage() {
   return (
     <main className="max-w-5xl mx-auto py-20 px-4">
-      <h1 className="text-4xl md:text-5xl font-bold mb-6 text-cyber-blue">Karir</h1>
+      <h1 className="text-5xl md:text-7xl font-bold mb-6 glow-text">Karir</h1>
       <p className="text-gray-400 mb-8">Bergabunglah dengan tim kami — posisi terbuka saat ini:</p>
 
       <ul className="space-y-4">
@@ -19,6 +19,9 @@ export default function CareersPage() {
           <Link href="#" className="mt-3 inline-block text-cyber-blue">Lamar sekarang</Link>
         </li>
       </ul>
+      <Link href="/" className="inline-block mt-8 bg-cyber-blue text-black px-6 py-3 rounded-md font-bold hover:bg-cyber-green transition">
+        Kembali ke Beranda
+      </Link>
     </main>
   );
 }

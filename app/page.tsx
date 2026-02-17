@@ -6,6 +6,44 @@ import Link from 'next/link';
 export default function Home() {
   const [activeTab, setActiveTab] = useState('home');
   const [messageText, setMessageText] = useState('');
+  const [layananSubTab, setLayananSubTab] = useState('overview');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const services = [
+    {
+      title: 'Security Assessment',
+      price: 'Mulai dari Rp 15.000.000',
+      features: [
+        'Vulnerability Assessment',
+        'Network Security Audit',
+        'Application Security Testing',
+        'Compliance Check',
+        'Laporan Komprehensif',
+      ],
+    },
+    {
+      title: 'Managed Security Services',
+      price: 'Mulai dari Rp 25.000.000/bulan',
+      features: [
+        '24/7 Security Monitoring',
+        'Incident Response',
+        'Threat Intelligence',
+        'Security Operations Center',
+        'Monthly Reports',
+      ],
+    },
+    {
+      title: 'Penetration Testing',
+      price: 'Mulai dari Rp 30.000.000',
+      features: [
+        'External Penetration Testing',
+        'Internal Network Testing',
+        'Web Application Testing',
+        'Social Engineering Test',
+        'Remediation Support',
+      ],
+    },
+  ];
 
   const openGmailCompose = () => {
     const to = 'farrelazhar1805@gmail.com';
@@ -26,6 +64,8 @@ export default function Home() {
                 CyberSec<span className="text-cyber-green">Pro</span>
               </h1>
             </div>
+
+            {/* Desktop menu */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
                 {['home', 'layanan', 'ancaman', 'tips', 'kontak'].map((tab) => (
@@ -43,8 +83,45 @@ export default function Home() {
                 ))}
               </div>
             </div>
+
+            {/* Mobile: hamburger */}
+            <div className="md:hidden flex items-center">
+              <button
+                onClick={() => setMobileMenuOpen((s) => !s)}
+                aria-label="Toggle menu"
+                aria-expanded={mobileMenuOpen}
+                className="p-2 rounded-md text-cyber-blue hover:bg-black/20 focus:outline-none focus:ring-2 focus:ring-cyber-blue"
+              >
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  {mobileMenuOpen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  )}
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
+
+        {/* Mobile menu panel (portrait) */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-black/90 border-t border-cyber-blue/20">
+            <div className="px-4 pt-4 pb-6 space-y-1">
+              {['home', 'layanan', 'ancaman', 'tips', 'kontak'].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => { setActiveTab(tab); setMobileMenuOpen(false); }}
+                  className={`w-full text-left px-3 py-2 rounded-md text-base font-medium transition ${
+                    activeTab === tab ? 'bg-cyber-blue text-black' : 'text-gray-300 hover:bg-black/40'
+                  }`}
+                >
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
@@ -132,62 +209,76 @@ export default function Home() {
       {/* Layanan Section */}
       {activeTab === 'layanan' && (
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <h2 className="text-4xl font-bold mb-12 text-center glow-text">Layanan Kami</h2>
-          <div className="space-y-8">
-            {[
-              {
-                title: 'Security Assessment',
-                price: 'Mulai dari Rp 15.000.000',
-                features: [
-                  'Vulnerability Assessment',
-                  'Network Security Audit',
-                  'Application Security Testing',
-                  'Compliance Check',
-                  'Laporan Komprehensif',
-                ],
-              },
-              {
-                title: 'Managed Security Services',
-                price: 'Mulai dari Rp 25.000.000/bulan',
-                features: [
-                  '24/7 Security Monitoring',
-                  'Incident Response',
-                  'Threat Intelligence',
-                  'Security Operations Center',
-                  'Monthly Reports',
-                ],
-              },
-              {
-                title: 'Penetration Testing',
-                price: 'Mulai dari Rp 30.000.000',
-                features: [
-                  'External Penetration Testing',
-                  'Internal Network Testing',
-                  'Web Application Testing',
-                  'Social Engineering Test',
-                  'Remediation Support',
-                ],
-              },
-            ].map((service, index) => (
-              <div
-                key={index}
-                className="bg-black/40 backdrop-blur-sm border-l-4 border-cyber-green rounded-lg p-8 card-hover"
+          {/* Sub-tabs: Layanan / Pembayaran */}
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex bg-black/20 rounded-full p-1">
+              <button
+                onClick={() => setLayananSubTab('overview')}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+                  layananSubTab === 'overview' ? 'bg-cyber-blue text-black' : 'text-cyber-blue/70 hover:bg-black/40'
+                }`}
               >
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-2xl font-bold text-cyber-blue">{service.title}</h3>
-                  <span className="text-cyber-green font-bold">{service.price}</span>
-                </div>
-                <ul className="space-y-2">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="text-gray-300 flex items-center">
-                      <span className="text-cyber-green mr-2">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                Layanan
+              </button>
+              <button
+                onClick={() => setLayananSubTab('payment')}
+                className={`px-4 py-2 rounded-full text-sm font-medium ml-2 transition ${
+                  layananSubTab === 'payment' ? 'bg-cyber-green text-black' : 'text-cyber-blue/70 hover:bg-black/40'
+                }`}
+              >
+                Pembayaran
+              </button>
+            </div>
           </div>
+
+          {layananSubTab === 'overview' ? (
+            <>
+              <h2 className="text-4xl font-bold mb-12 text-center glow-text">Layanan Kami</h2>
+              <div className="space-y-8">
+                {services.map((service, index) => (
+                  <div
+                    key={index}
+                    className="bg-black/40 backdrop-blur-sm border-l-4 border-cyber-green rounded-lg p-8 card-hover"
+                  >
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-2xl font-bold text-cyber-blue">{service.title}</h3>
+                      <span className="text-cyber-green font-bold">{service.price}</span>
+                    </div>
+                    <ul className="space-y-2">
+                      {service.features.map((feature, idx) => (
+                        <li key={idx} className="text-gray-300 flex items-center">
+                          <span className="text-cyber-green mr-2">✓</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="text-4xl font-bold mb-6 text-center glow-text">Pembayaran</h2>
+              <p className="text-center text-gray-400 mb-8">Pilih paket dan lanjutkan ke pembayaran.</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                {services.map((service, idx) => (
+                  <div key={idx} className="bg-black/40 border border-cyber-blue/30 rounded-lg p-6 text-center card-hover">
+                    <h3 className="text-xl font-bold text-cyber-blue mb-2">{service.title}</h3>
+                    <p className="text-cyber-green font-bold mb-4">{service.price}</p>
+                    <Link href={`/payment/${service.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} className="w-full inline-block bg-cyber-blue text-black px-4 py-2 rounded-md font-bold hover:bg-cyber-green transition text-center">
+                      Bayar Sekarang
+                    </Link>
+                    <button className="w-full mt-2 bg-transparent border border-cyber-blue text-cyber-blue px-4 py-2 rounded-md hover:bg-black/10 transition text-sm">
+                      Lihat Detail
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="text-center text-gray-400">
+                <small>Metode pembayaran: transfer bank, kartu kredit, e-wallet (mock UI).</small>
+              </div>
+            </>
+          )}
         </main>
       )}
 
@@ -400,11 +491,11 @@ export default function Home() {
                 <div className="space-y-3 text-gray-300">
                   <p className="flex items-center">
                     <span className="text-cyber-blue mr-3">📧</span>
-                    info@cybersecpro.id
+                    farrelazhar1805@gmail.com
                   </p>
                   <p className="flex items-center">
                     <span className="text-cyber-blue mr-3">📱</span>
-                    +62 812-3456-7890
+                    +62 878-3908-0473
                   </p>
                   <p className="flex items-center">
                     <span className="text-cyber-blue mr-3">📍</span>
